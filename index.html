@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#f7a8c4" />
+  <title>裙裙记账 · Lolita 衣橱</title>
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="./icon.svg" />
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- 顶部栏 -->
+    <header class="topbar">
+      <div class="topbar-inner">
+        <span class="logo">🎀</span>
+        <h1 id="pageTitle">本月衣橱</h1>
+        <button class="icon-btn" id="btnSettings" aria-label="设置">⚙️</button>
+      </div>
+    </header>
+
+    <!-- 页面：月度 -->
+    <section class="page" id="page-month" data-page="month"></section>
+
+    <!-- 页面：裙柜 -->
+    <section class="page hidden" id="page-wardrobe" data-page="wardrobe"></section>
+
+    <!-- 页面：日历 -->
+    <section class="page hidden" id="page-calendar" data-page="calendar"></section>
+
+    <!-- 底部导航 -->
+    <nav class="tabbar">
+      <button class="tab active" data-tab="month"><span>📅</span><em>月度</em></button>
+      <button class="tab" data-tab="wardrobe"><span>👗</span><em>裙柜</em></button>
+      <button class="tab fab-wrap" data-tab="add"><span class="fab">＋</span></button>
+      <button class="tab" data-tab="calendar"><span>🗓️</span><em>日历</em></button>
+      <button class="tab" data-tab="stats"><span>📊</span><em>统计</em></button>
+    </nav>
+  </div>
+
+  <!-- 通用弹窗容器 -->
+  <div class="modal-mask hidden" id="modalMask">
+    <div class="modal" id="modalBox"></div>
+  </div>
+
+  <!-- 轻提示 -->
+  <div class="toast hidden" id="toast"></div>
+
+  <script src="./js/app.js"></script>
+</body>
+</html>

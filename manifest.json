@@ -1,0 +1,20 @@
+{
+  "name": "裙裙记账 · Lolita 衣橱",
+  "short_name": "裙裙记账",
+  "description": "记录你的 Lolita 裙子：月度预算、裙柜管理、尾款日历提醒",
+  "lang": "zh-CN",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fff0f5",
+  "theme_color": "#f7a8c4",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
