@@ -462,16 +462,26 @@
   /* ---------- 裙子卡片 HTML ---------- */
   function dressItemHtml(d) {
     const st = STATUS[d.status] || STATUS.wish;
+    const paidOff = d.status === "arrived" || d.status === "owned";
     const bal = (Number(d.price) || 0) - (Number(d.deposit) || 0);
-    const due = d.balanceDueDate ? `<span class="meta">尾款 ${d.balanceDueDate.slice(5)} · ${money(bal)}</span>` : "";
+    // 已到货/已拥有：不再区分定金尾款，只显示全款；不再提示尾款
+    const due = (!paidOff && d.balanceDueDate) ? `<span class="meta">尾款 ${d.balanceDueDate.slice(5)} · ${money(bal)}</span>` : "";
+    const priceMeta = paidOff ? money(d.price) : (money(d.price) + (d.deposit ? " · 定金 " + money(d.deposit) : ""));
+    const wear = Number(d.wearCount) || 0;
+    const wash = Number(d.washCount) || 0;
+    const counters = (wear > 0 || wash > 0)
+      ? `<div class="counters"><span title="穿着次数">👕 ${wear}</span><span title="洗涤次数">🫧 ${wash}</span></div>` : "";
     return `<div class="item" data-id="${d.id}">
       <div class="thumb">${d.image ? '<img src="' + escapeHtml(d.image) + '" alt="">' : (d.emoji || "👗")}</div>
       <div class="body">
         <div class="name">${escapeHtml(d.name)}<span class="type-pill ${(CATEGORIES[d.category] || CATEGORIES.other).cls}">${typeLabel(d)}</span><span class="status-pill ${st.cls}">${st.label}</span></div>
-        <div class="meta">${money(d.price)}${d.deposit ? " · 定金 " + money(d.deposit) : ""}</div>
+        <div class="meta">${priceMeta}</div>
         ${due}
       </div>
-      <div class="price">${money(d.price)}</div>
+      <div class="side">
+        ${counters}
+        <div class="price">${money(d.price)}</div>
+      </div>
     </div>`;
   }
   function bindDressItems(root) {
@@ -535,6 +545,10 @@
           </select>
         </div>
       </div>
+      <div class="row2">
+        <div class="field"><label>穿着次数</label><input id="f-wear" type="number" inputmode="numeric" min="0" placeholder="0" value="${s.wearCount || 0}"></div>
+        <div class="field"><label>洗涤次数</label><input id="f-wash" type="number" inputmode="numeric" min="0" placeholder="0" value="${s.washCount || 0}"></div>
+      </div>
       <div class="field"><label>品牌 / 备注</label><input id="f-note" placeholder="可选" value="${escapeHtml(s.note || "")}"></div>
       <div class="modal-actions">
         ${existing ? `<button class="btn btn-danger" id="f-del">删除</button>` : ""}
@@ -595,6 +609,8 @@
         subType: box.querySelector("#f-cat").value === "dress" ? box.querySelector("#f-sub").value : "",
         image: imgData,
         note: box.querySelector("#f-note").value.trim(),
+        wearCount: parseInt(box.querySelector("#f-wear").value, 10) || 0,
+        washCount: parseInt(box.querySelector("#f-wash").value, 10) || 0,
       };
       if (existing) {
         const i = state.dresses.findIndex((x) => x.id === existing.id);
@@ -719,11 +735,11 @@
     const box = $("#modalBox");
     box.innerHTML = `
       <h3>${day.slice(5)} 尾款日</h3>
-      <div class="list">${ds.map((d) => `<div class="item" data-id="${d.id}">
+      <div class="list">${ds.map((d) => { const paidOff = d.status === "arrived" || d.status === "owned"; return `<div class="item" data-id="${d.id}">
         <div class="thumb">${d.image ? '<img src="' + escapeHtml(d.image) + '" alt="">' : (d.emoji || "👗")}</div>
         <div class="body"><div class="name">${escapeHtml(d.name)}<span class="type-pill ${(CATEGORIES[d.category] || CATEGORIES.other).cls}">${typeLabel(d)}</span></div>
-        <div class="meta">尾款 ${money((Number(d.price) || 0) - (Number(d.deposit) || 0))}</div></div>
-        <div class="price">${money(d.price)}</div></div>`).join("")}</div>
+        <div class="meta">${paidOff ? "全款 " + money(d.price) : "尾款 " + money((Number(d.price) || 0) - (Number(d.deposit) || 0))}</div></div>
+        <div class="price">${money(d.price)}</div></div>`; }).join("")}</div>
       <div class="modal-actions"><button class="btn btn-ghost" data-close>关闭</button></div>
     `;
     openModal();
