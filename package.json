@@ -1,0 +1,17 @@
+{
+  "name": "lolita-wardrobe",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Lolita 裙柜记录 PWA 打包为 Android App 的构建配置",
+  "scripts": {
+    "cap": "cap",
+    "build:android": "cap copy android && cap sync android"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.1.0"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.1.0",
+    "@capacitor/core": "^6.1.0"
+  }
+}

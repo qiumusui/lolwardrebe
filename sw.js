@@ -1,4 +1,4 @@
-const CACHE = "lolita-wardrobe-v2";
+const CACHE = "lolita-wardrobe-v6";
 const FILES = [
   "./",
   "./index.html",

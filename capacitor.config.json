@@ -1,0 +1,8 @@
+{
+  "appId": "com.luna.lolitawardrobe",
+  "appName": "裙柜",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}
